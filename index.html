@@ -16,7 +16,7 @@
             Inventory Gudang POS Bandar Jaya
         </div>
         <div>
-            <button class="update-btn" onclick="alert('Fitur Update butuh Backend Flask')">
+            <button class="update-btn" onclick="updateDatabase()">
                 🔄 Update Database
             </button>
         </div>
@@ -25,33 +25,27 @@
 
 <div class="container">
 
-<!-- ==========================================
-DASHBOARD
-========================================== -->
-
+<!-- DASHBOARD -->
 <div class="dashboard">
     <div class="card">
         <h3>Total Item</h3>
-        <div class="number">0</div>
+        <div class="number" id="total">0</div>
     </div>
     <div class="card">
         <h3>Total Qty Bandar Jaya</h3>
-        <div class="number">0</div>
+        <div class="number" id="total_qty">0</div>
     </div>
     <div class="card">
         <h3>Stok Tersedia</h3>
-        <div class="number">0</div>
+        <div class="number" id="stok_tersedia">0</div>
     </div>
     <div class="card">
         <h3>Stok Habis</h3>
-        <div class="number">0</div>
+        <div class="number" id="stok_habis">0</div>
     </div>
 </div>
 
-<!-- ==========================================
-SEARCH
-========================================== -->
-
+<!-- SEARCH -->
 <div class="search-box">
     <h2>Cari Barang</h2>
     <form onsubmit="event.preventDefault(); cariBarang();">
@@ -69,39 +63,4 @@ W9501-35000B
 
 atau cukup ketik nama barang..."></textarea>
 
-        <div class="button-group">
-            <button type="submit">🔍 Cari</button>
-            <button type="button" class="reset-btn" onclick="resetCari()">♻ Reset</button>
-        </div>
-    </form>
-</div>
-
-<!-- ==========================================
-HASIL PENCARIAN
-========================================== -->
-
-<div id="hasil"></div>
-
-</div>
-
-<script src="app.js"></script>
-<script>
-// Fungsi dummy karena tanpa database
-function cariBarang() {
-    document.getElementById('hasil').innerHTML = `
-    <h2 style="margin-top:30px;">Hasil Pencarian</h2>
-    <p style="margin-top:8px;color:#666;">Fitur cari butuh database. Upload ke Railway/Vercel kalau mau aktif</p>
-    <div class="card" style="margin-top:20px;">
-        <h2>Mode Demo Statis</h2>
-        <p>Untuk cari data beneran, projek ini harus jalan di server Python</p>
-    </div>
-    `;
-}
-function resetCari() {
-    document.getElementById('keyword').value = "";
-    document.getElementById('hasil').innerHTML = "";
-}
-</script>
-
-</body>
-</html>
+        <div class="button
