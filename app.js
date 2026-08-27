@@ -45,29 +45,4 @@ function tampilkanHasil(barang) {
             classStatus = "status-habis";
         }
 
-        const row = `
-        <tr>
-            <td>${b.item_code}</td>
-            <td>${b.item_name}</td>
-            <td>${b.gd_pos_bndrjaya_lmp}</td>
-            <td><span class="status ${classStatus}">${status}</span></td>
-        </tr>`;
-        tbody.innerHTML += row;
-    });
-}
-
-// Fungsi tombol update database
-async function updateDatabase() {
-    alert("Update database dimulai... tunggu 10 detik");
-    try {
-        await fetch(`${API_URL}/refresh`);
-        alert("Database berhasil diupdate!");
-        loadStats(); // refresh angka
-    } catch (err) {
-        alert("Gagal update database");
-        console.error(err);
-    }
-}
-
-// Jalanin pas web dibuka
-loadStats();
+        const row =
