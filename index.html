@@ -5,6 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PILAR AGRI - Inventory Gudang</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS tambahan untuk memastikan tampilan rapi & penuh di handphone */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        .header {
+            background-color: #1b5e20;
+            color: #fff;
+            padding: 15px;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .update-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Grid Responsif */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .card .number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        /* Form Cari */
+        .search-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .search-box h2 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        .reset-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* Hasil Tabel Responsif */
+        #hasil {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto; /* Scroll horizontal jika layar sangat sempit */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Membagi lebar kolom secara proporsional */
+        }
+
+        th, td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.85rem;
+            word-wrap: break-word; /* Mencegah teks panjang merusak layout */
+        }
+
+        th {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        /* Pengaturan Lebar Kolom Tabel */
+        th:nth-child(1), td:nth-child(1) { width: 30%; } /* Kode */
+        th:nth-child(2), td:nth-child(2) { width: 35%; } /* Nama */
+        th:nth-child(3), td:nth-child(3) { width: 15%; text-align: center; } /* Stok BJ */
+        th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; } /* Status */
+    </style>
 </head>
 <body>
 
@@ -25,35 +184,33 @@
 
 <div class="container">
 
-<!-- DASHBOARD -->
-<div class="dashboard">
-    <div class="card">
-        <h3>Total Item</h3>
-        <div class="number" id="total">0</div>
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Item</h3>
+            <div class="number" id="total">0</div>
+        </div>
+        <div class="card">
+            <h3>Total Qty Bandar Jaya</h3>
+            <div class="number" id="total_qty">0</div>
+        </div>
+        <div class="card">
+            <h3>Stok Tersedia</h3>
+            <div class="number" id="stok_tersedia">0</div>
+        </div>
+        <div class="card">
+            <h3>Stok Habis</h3>
+            <div class="number" id="stok_habis">0</div>
+        </div>
     </div>
-    <div class="card">
-        <h3>Total Qty Bandar Jaya</h3>
-        <div class="number" id="total_qty">0</div>
-    </div>
-    <div class="card">
-        <h3>Stok Tersedia</h3>
-        <div class="number" id="stok_tersedia">0</div>
-    </div>
-    <div class="card">
-        <h3>Stok Habis</h3>
-        <div class="number" id="stok_habis">0</div>
-    </div>
-</div>
 
-<!-- SEARCH -->
-<div class="search-box">
-    <h2>Cari Barang</h2>
-    <form onsubmit="event.preventDefault(); cariBarang();">
-        <textarea
-            id="keyword"
-            name="keyword"
-            rows="8"
-            placeholder="Masukkan Part Number atau Nama Barang...
+    <div class="search-box">
+        <h2>Cari Barang</h2>
+        <form onsubmit="event.preventDefault(); cariBarang();">
+            <textarea
+                id="keyword"
+                name="keyword"
+                rows="6"
+                placeholder="Masukkan Part Number atau Nama Barang...
 
 Contoh:
 TC402-25360
@@ -63,24 +220,29 @@ W9501-35000B
 
 atau cukup ketik nama barang..."></textarea>
 
-        <div class="button
-<div class="button-group">
-            <button type="submit">🔍 Cari</button>
-            <button type="button" class="reset-btn" onclick="resetCari()">♻ Reset</button>
-        </div>
-    </form>
+            <div class="button-group">
+                <button type="submit">🔍 Cari</button>
+                <button type="button" class="reset-btn" onclick="resetCari()">♻ Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="hasil">
+        <table>
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Stok BJ</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="hasil-tabel"></tbody>
+        </table>
+    </div>
+
 </div>
 
-<!-- HASIL PENCARIAN -->
-<div id="hasil">
-    <table>
-        <thead><tr><th>Kode</th><th>Nama</th><th>Stok BJ</th><th>Status</th></tr></thead>
-        <tbody id="hasil-tabel"></tbody>
-    </table>
-</div>
-
-</div>
-
-<script src="app.js"></script>  <!-- INI YANG KURANG -->
-</body>                         <!-- INI JUGA -->
-</html>                         <!-- INI JUGA -->
+<script src="app.js"></script>
+</body>
+</html>
